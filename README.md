@@ -1,8 +1,10 @@
 # Netfilx-gpt
  
 - create React App
--Configured TailwindCSS
-
+- Configured TailwindCSS
+- Header
+- Login Form
+- Sign Up form
 
 #Features 
 - Login / signup page
