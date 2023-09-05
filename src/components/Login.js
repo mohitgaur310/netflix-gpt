@@ -1,20 +1,58 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { LOGIN_IMG } from "../utils/Constants";
-import { checkPasswordValidation , checkEmailValidation } from "../utils/validate";
+import {
+  checkPasswordValidation,
+  checkEmailValidation,
+} from "../utils/validate";
+import { createUserWithEmailAndPassword  , signInWithEmailAndPassword} from "firebase/auth";
+import { auth } from "../utils/firebase";
+
 const Login = () => {
   const [isSignUp, setSignUp] = useState(false);
-  const [errorMessage,setErrorMessage]=useState(null)
-  const [errorPassMessage,setErrorPassMessage]=useState(null)
-  const name=useRef(null)
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorPassMessage, setErrorPassMessage] = useState(null);
+  const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
   const handleClick = (e) => {
     let message = checkEmailValidation(email.current.value);
-    let messagePass=checkPasswordValidation(password.current.value)
+    let messagePass = checkPasswordValidation(password.current.value);
     e.preventDefault();
     setErrorPassMessage(messagePass);
-    setErrorMessage(message)
+    setErrorMessage(message);
+    if (!(message === null) && !(messagePass === null)) return;
+    if (isSignUp) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorPassMessage(errorCode + "-" + errorMessage);
+          // ..
+        });
+    } else {
+      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+            setErrorPassMessage(errorCode + "-" + errorMessage)
+        });
+    }
   };
   const toggleSignUP = () => {
     setSignUp(!isSignUp);
@@ -31,12 +69,12 @@ const Login = () => {
         </h1>
         {isSignUp && (
           <>
-          <input
-            ref={name}
-            type="text"
-            placeholder="Full Name"
-            className="p-4 my-2 w-full bg-gray-700 rounded-lg "
-          />
+            <input
+              ref={name}
+              type="text"
+              placeholder="Full Name"
+              className="p-4 my-2 w-full bg-gray-700 rounded-lg "
+            />
           </>
         )}
         <input
