@@ -5,22 +5,34 @@ import {
   checkPasswordValidation,
   checkEmailValidation,
 } from "../utils/validate";
-import { createUserWithEmailAndPassword  , signInWithEmailAndPassword} from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
+
   const [isSignUp, setSignUp] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorPassMessage, setErrorPassMessage] = useState(null);
+
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
-  const handleClick = (e) => {
+  
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
     let message = checkEmailValidation(email.current.value);
     let messagePass = checkPasswordValidation(password.current.value);
-    e.preventDefault();
     setErrorPassMessage(messagePass);
+
     setErrorMessage(message);
+
     if (!(message === null) && !(messagePass === null)) return;
     if (isSignUp) {
       createUserWithEmailAndPassword(
@@ -29,28 +41,44 @@ const Login = () => {
         password.current.value
       )
         .then((userCredential) => {
-          // Signed in
           const user = userCredential.user;
-          console.log(user);
-          // ...
+          updateProfile(user, {
+            displayName: name.current.value,
+          })
+            .then(() => {
+              const { uid, email, displayName } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                })
+              );
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          setErrorPassMessage(errorCode + "-" + errorMessage);
-          // ..
+          setErrorMessage(errorCode + "-" + errorMessage);
         });
     } else {
-      signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+      // Sign In Logic
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
         .then((userCredential) => {
           // Signed in
-          const user = userCredential.user;
-          console.log(user);
+          const user = userCredential.user;         
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-            setErrorPassMessage(errorCode + "-" + errorMessage)
+          setErrorMessage(errorCode + "-" + errorMessage);
         });
     }
   };
@@ -63,7 +91,9 @@ const Login = () => {
       <div className="absolute">
         <img src={LOGIN_IMG} alt="login-img" />
       </div>
-      <form className=" text-white w-3/12 my-36 mx-auto left-0 right-0  absolute p-12 bg-black bg-opacity-80">
+      <form 
+        onSubmit={(e) => e.preventDefault()} 
+      className=" text-white w-3/12 my-36 mx-auto left-0 right-0  absolute p-12 bg-black bg-opacity-80">
         <h1 className="  font-bold text-3xl mb-3">
           {isSignUp ? "Sign Up" : "Sign In"}
         </h1>
