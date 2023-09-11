@@ -7,3 +7,5 @@ export const API_OPTIONS = {method: 'GET', headers: {
     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTEzYzI0YmFhYTFlNWVmNDNiN2UyNDJiYmJmYmI4YSIsInN1YiI6IjY0ZmRmNWI4NmEyMjI3MDExYTc5NWI3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.onbDJ12q9OR729VXitk0AFz8rm3XPmmZhO1V-m9hvSA'
 
 }};
+
+export const YOUTUBE_LINK='https://www.youtube.com/watch?v='
