@@ -9,8 +9,6 @@ const SecondaryContainer = () => {
   useTopRatedMovies();
 
   const movies = useSelector((store) => store.movies);
-  console.log(movies.popularMovies);
-  console.log(movies.nowPlayingMovies);
   return (
     <div className="bg-black w-screen">
       <div className="-mt-60  relative z-10">
