@@ -1,9 +1,27 @@
-import React from 'react'
+import React from "react";
+import MovieList from "./MovieList";
+import { useSelector } from "react-redux";
+import usePopularMovies from "../Hooks/usePopularMovies";
+import useTopRatedMovies from "../Hooks/useTopRatedMovies";
 
 const SecondaryContainer = () => {
-  return (
-    <div>SecondaryContainer</div>
-  )
-}
+  usePopularMovies();
+  useTopRatedMovies();
 
-export default SecondaryContainer
+  const movies = useSelector((store) => store.movies);
+  console.log(movies.popularMovies);
+  console.log(movies.nowPlayingMovies);
+  return (
+    <div className="bg-black w-screen">
+      <div className="-mt-60  relative z-10">
+        <MovieList title={"Now Playing"} movies={movies.nowPlayingMovies} />
+        <MovieList title={"Top Rated"} movies={movies.topRatedMovies} />
+        <MovieList title={"Popular"} movies={movies.popularMovies} />
+        <MovieList title={"Now Playing"} movies={movies.nowPlayingMovies} />
+        <MovieList title={"Now Playing"} movies={movies.nowPlayingMovies} />
+      </div>
+    </div>
+  );
+};
+
+export default SecondaryContainer;

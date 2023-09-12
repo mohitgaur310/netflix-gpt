@@ -9,3 +9,4 @@ export const API_OPTIONS = {method: 'GET', headers: {
 }};
 
 export const YOUTUBE_LINK='https://www.youtube.com/watch?v='
+export const MOVIE_IMG='https://image.tmdb.org/t/p/w200/'

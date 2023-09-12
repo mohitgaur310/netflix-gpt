@@ -7,11 +7,11 @@ const VideoTitle = ({ title, overview }) => {
       <h1 className="text-5xl font-bold p-2">{title} </h1>
       <p className="py-6 text-m w-1/4">{overview}</p>
       <div>
-        <button className="p-2  rounded-lg px-12  bg-white font-bold text-lg mx-3 text-black hover:bg-opacity-80">
-          <FaPlay className="absolute left-[9.2%] mt-1.5  " /> Play
+        <button className="pt-0  pb-3  rounded-lg px-12  bg-white font-bold text-lg mx-3 text-black hover:bg-opacity-80">
+          <FaPlay className="relative -left-6 top-6" /> Play
         </button>
-        <button className=" py-2 rounded-lg px-10 bg-gray-600 font-bold text-lg">
-          <FaInfoCircle className="absolute left-[18.2%] mt-1.5  " /> More Info
+        <button className="  pt-0  pb-3 rounded-lg px-10 bg-gray-600 font-bold text-lg">
+          <FaInfoCircle className="relative -left-6 top-6  " /> More Info
         </button>
       </div>
     </div>
