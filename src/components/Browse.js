@@ -8,7 +8,6 @@ import GptSearch from "./GptSearch";
 export const Browse = () => {
   useNowPlayingMovies();
   const toggle = useSelector((store) => store.GPT?.toggleSearch);
-  console.log(toggle);
   return (
     <div>
       <Header />

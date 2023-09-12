@@ -5,14 +5,14 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
-import { updateToggleSearch } from "../utils/gptSlice";
+import { updateLanguageGpt, updateToggleSearch } from "../utils/gptSlice";
+import { SUPPORTED_LANGUAGES } from "../utils/languageConstants";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
   const toggle= useSelector((store)=>store?.GPT?.toggleSearch)
-  console.log(toggle);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -37,12 +37,20 @@ const Header = () => {
   const handleGptSearch =()=>{
     dispatch(updateToggleSearch('turn'))
   }
+  const handleLanguageChange=(e)=>{
+        dispatch(updateLanguageGpt(e.target.value))
+  }
   return (
     <div className="absolute w-screen bg-gradient-to-b from-black z-10 flex justify-between  ">
       <img className="w-44 " src={LOGO} alt="logo" />
       {user && (
         <div className="flex p-4">
-          <button className=" bg-red-700 text-white py-2 px-4 mx-4 rounded-lg "
+        {toggle&& <> <select onClick={handleLanguageChange} className="p-1 pl-3  cursor-pointer rounded-t-lg  hover:bg-opacity-80   bg-red-700 text-white" > 
+            {SUPPORTED_LANGUAGES.map((lang)=> <option  key={lang.idetifier} value={lang.idetifier}>{lang.name}</option>)}
+            
+            
+        </select> </>}
+          <button className=" bg-red-700 text-white py-2 px-4 mx-4 rounded-lg  hover:bg-opacity-80 "
           onClick={handleGptSearch}>
             GPT Search
           </button>
