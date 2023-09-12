@@ -52,7 +52,7 @@ const Header = () => {
         </select> </>}
           <button className=" bg-red-700 text-white py-2 px-4 mx-4 rounded-lg  hover:bg-opacity-80 "
           onClick={handleGptSearch}>
-            GPT Search
+            { toggle?"Homepage":"GPT Search"}
           </button>
           <img className="w-12 h-12 mx-4" alt="user-logo" src={USER_LOGO} />
           <button
