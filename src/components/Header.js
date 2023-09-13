@@ -42,23 +42,23 @@ const Header = () => {
         dispatch(updateLanguageGpt(e.target.value))
   }
   return (
-    <div className="absolute w-screen bg-gradient-to-b from-black z-10 flex justify-between  ">
-      <img className="w-44 " src={LOGO} alt="logo" />
+    <div className="absolute w-screen md:bg-gradient-to-b  from-black z-10 flex flex-col md:flex-row justify-between">
+      <img className=" w-40 md:w-44 mx-auto md:mx-0  " src={LOGO} alt="logo" />
       {user && (
-        <div className="flex p-4">
+        <div className="flex p-4 justify-around ">
         {toggle&& <> <select onClick={handleLanguageChange} className="p-1 pl-3  cursor-pointer rounded-t-lg  hover:bg-opacity-80   bg-red-700 text-white" > 
             {SUPPORTED_LANGUAGES.map((lang)=> <option  key={lang.idetifier} value={lang.idetifier}>{lang.name}</option>)}
             
             
         </select> </>}
-          <button className=" bg-red-700 text-white py-2 px-4 mx-4 rounded-lg  hover:bg-opacity-80 "
+          <button className=" bg-red-700 text-white px-2 mx-6 py-2 md:px-4 md:mx-4 rounded-lg  hover:bg-opacity-80 "
           onClick={handleGptSearch}>
             { toggle?"Homepage":"GPT Search"}
           </button>
-          <img className="w-12 h-12 mx-4" alt="user-logo" src={USER_LOGO} />
+          <img className="w-12 h-12 mx-4 invisible  md:visible " alt="user-logo" src={USER_LOGO} />
           <button
             onClick={signOutHandler}
-            className="font-bold text-white bg-red-700 rounded-lg px-5 cursor-pointer hover:bg-opacity-80"
+            className="font-bold text-white bg-red-700 rounded-lg px-5 cursor-pointer hover:bg-opacity-80 pr-5"
           >
             Sign Out
           </button>

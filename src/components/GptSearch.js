@@ -4,13 +4,16 @@ import GptMovieSuggestion from "./GptMovieSuggestion";
 import { LOGIN_IMG } from "../utils/Constants";
 
 const GptSearch = () => {
- return ( <div className=" ">
+ return (  <>
  <div className="fixed  -z-10">
-        <img src={LOGIN_IMG} className="" alt="login-img" />
+        <img src={LOGIN_IMG} className="h-screen md:w-screen object-cover " alt="login-img" />
       </div>
+ <div className="  md:p-0 ">
+ 
     <GptSearchBar />
     <GptMovieSuggestion />
-  </div>);
+  </div>
+  </>);
 };
 
 export default GptSearch;
