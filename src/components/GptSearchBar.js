@@ -6,13 +6,14 @@ import { API_OPTIONS } from "../utils/Constants";
 import { addGptMovies } from "../utils/gptSlice";
 
 const GptSearchBar = () => {
-  const translate = useSelector((store) => store.GPT.languageGpt);
+  const {languageGpt} = useSelector((store) => store.GPT);
   const textSearch = useRef("");
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
+  
   const searchQuery =
-    "Act as a movie Recommendation system and suggest some movies for the query :" +
     textSearch.current.value +
-    ". Only give me 5 movies, comma seperated like the exaple result given head. Example  Result: Gadar, Avanger:Civil War, Koi mil Gaya, Don";
+    ". Only give me 5 movies, comma seperated like the exapmle result given ahead. Example Result: Gadar, Avanger:Civil War, Koi mil Gaya, Don";
+
   const searchMovies = async (movie) => {
     const data = await fetch(
       "https://api.themoviedb.org/3/search/movie?query=" + movie + "&page=1",
@@ -28,10 +29,13 @@ const GptSearchBar = () => {
     });
     const movieResult = completion?.choices[0]?.message?.content.split(", ");
     const promisedData = movieResult.map((movie) => searchMovies(movie));
-    const tmdbData= await Promise.all(promisedData)
-    dispatch(addGptMovies({moviesNames:movieResult,movieResultsTMDB:tmdbData}))
-    console.log(movieResult);
+
+    const tmdbData = await Promise.all(promisedData);
+    dispatch(
+      addGptMovies({ moviesNames: movieResult, movieResultsTMDB: tmdbData })
+    );
   };
+
   return (
     <div className="py-[8%] flex justify-center">
       <form
@@ -42,13 +46,13 @@ const GptSearchBar = () => {
           ref={textSearch}
           type="text"
           className="col-span-9  border rounded-lg m-4 p-4 px-4"
-          placeholder={lang[translate].gptSearchPlaceholder}
+          placeholder={lang[languageGpt].gptSearchPlaceholder}
         />
         <button
           className=" bg-red-700 text-white py-2 px-4 m-4 rounded-lg col-span-3 hover:bg-red-800"
           onClick={handleGptText}
         >
-          {lang[translate].Search}
+          {lang[languageGpt].Search}
         </button>
       </form>
     </div>

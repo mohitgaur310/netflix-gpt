@@ -5,7 +5,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
-import { updateLanguageGpt, updateToggleSearch } from "../utils/gptSlice";
+import { removeMoviesData, updateLanguageGpt, updateToggleSearch } from "../utils/gptSlice";
 import { SUPPORTED_LANGUAGES } from "../utils/languageConstants";
 
 const Header = () => {
@@ -34,6 +34,7 @@ const Header = () => {
         navigate("/error");
       });
   };
+  if(!toggle) dispatch(removeMoviesData())
   const handleGptSearch =()=>{
     dispatch(updateToggleSearch('turn'))
   }
