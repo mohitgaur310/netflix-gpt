@@ -2,9 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const gptSlice=createSlice({
     name:'GPT',
+    
     initialState:{
         toggleSearch:false,
         languageGpt:'en',
+        gptMovies:null,
+        gptMovieNames:null,
     },
     reducers:{
         updateToggleSearch: (state,action)=>{
@@ -13,8 +16,14 @@ const gptSlice=createSlice({
         updateLanguageGpt : (state,action)=>{
             state.languageGpt=action.payload
         },
+        addGptMovies: (state, action)=>{
+            const {moviesNames,movieResultsTMDB}=action.payload
+            state.gptMovies=movieResultsTMDB
+            state.gptMovieNames=moviesNames
+        },
+
     }
 })
 
-export const {updateToggleSearch, updateLanguageGpt}=gptSlice.actions;
+export const {updateToggleSearch, updateLanguageGpt, addGptMovies}=gptSlice.actions;
 export default gptSlice.reducer;
